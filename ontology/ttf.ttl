@@ -98,7 +98,7 @@ ttf:hasBaseType rdf:type owl:ObjectProperty ;
 
 ttf:hasBehavior rdf:type owl:ObjectProperty ;
   rdfs:label "has behavior" ;
-  rdfs:domain ttf:TokenTemplate ;
+  rdfs:domain owl:Thing ;
   rdfs:range ttf:Behavior .
 
 ttf:hasPropertySet rdf:type owl:ObjectProperty ;
@@ -189,3 +189,50 @@ ttf:SingletonNonFungibleToken rdf:type owl:Class ;
       owl:someValuesFrom ttf:Singleton
     ] .
 
+
+### Behaviors, groups, and constraints (Phase 2)
+
+ttf:TransferableBehavior rdf:type ttf:Behavior , owl:NamedIndividual ;
+  rdfs:label "Transferable" ;
+  ttf:symbol "t" .
+
+ttf:DivisibleBehavior rdf:type ttf:Behavior , owl:NamedIndividual ;
+  rdfs:label "Divisible" ;
+  ttf:symbol "d" .
+
+ttf:MintableBehavior rdf:type ttf:Behavior , owl:NamedIndividual ;
+  rdfs:label "Mintable" ;
+  ttf:symbol "m" .
+
+ttf:BurnableBehavior rdf:type ttf:Behavior , owl:NamedIndividual ;
+  rdfs:label "Burnable" ;
+  ttf:symbol "b" .
+
+ttf:SingletonBehavior rdf:type ttf:Behavior , owl:NamedIndividual ;
+  rdfs:label "Singleton" ;
+  ttf:symbol "s" .
+
+ttf:DelegableBehavior rdf:type ttf:Behavior , owl:NamedIndividual ;
+  rdfs:label "Delegable" ;
+  ttf:symbol "g" .
+
+ttf:RolesBehavior rdf:type ttf:Behavior , owl:NamedIndividual ;
+  rdfs:label "Roles" ;
+  ttf:symbol "r" .
+
+ttf:SupplyControl rdf:type ttf:BehaviorGroup , owl:NamedIndividual ;
+  rdfs:label "Supply Control" ;
+  ttf:hasBehavior ttf:MintableBehavior ,
+    ttf:BurnableBehavior ,
+    ttf:RolesBehavior ;
+  ttf:symbol "SC" .
+
+### Incompatibilities and influences
+
+ttf:SingletonBehavior ttf:incompatibleWith ttf:DivisibleBehavior .
+
+ttf:DelegableBehavior ttf:influences ttf:TransferableBehavior .
+
+ttf:SingletonBehavior owl:differentFrom ttf:DivisibleBehavior .
+
+ttf:Singleton owl:disjointWith ttf:Divisible .
