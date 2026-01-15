@@ -137,6 +137,21 @@ ttf:childOf rdf:type owl:ObjectProperty ;
   rdfs:domain ttf:TokenTemplate ;
   rdfs:range ttf:TokenTemplate .
 
+ttf:hasFormula rdf:type owl:ObjectProperty ;
+  rdfs:label "has formula" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:TokenFormula .
+
+ttf:hasDefinition rdf:type owl:ObjectProperty ;
+  rdfs:label "has definition" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:TokenDefinition .
+
+ttf:referencesArtifact rdf:type owl:ObjectProperty ;
+  rdfs:label "references artifact" ;
+  rdfs:domain owl:Thing ;
+  rdfs:range ttf:Artifact .
+
 ### Data properties
 
 ttf:symbol rdf:type owl:DatatypeProperty ;
@@ -157,6 +172,11 @@ ttf:description rdf:type owl:DatatypeProperty ;
 ttf:version rdf:type owl:DatatypeProperty ;
   rdfs:label "version" ;
   rdfs:domain ttf:Artifact ;
+  rdfs:range rdfs:Literal .
+
+ttf:expression rdf:type owl:DatatypeProperty ;
+  rdfs:label "expression" ;
+  rdfs:domain ttf:TokenFormula ;
   rdfs:range rdfs:Literal .
 
 ### Token Classification Hierarchy (TCH)
@@ -236,3 +256,59 @@ ttf:DelegableBehavior ttf:influences ttf:TransferableBehavior .
 ttf:SingletonBehavior owl:differentFrom ttf:DivisibleBehavior .
 
 ttf:Singleton owl:disjointWith ttf:Divisible .
+
+### Templates, formulas, and definitions (Phase 3)
+
+ttf:FungibleBaseType rdf:type ttf:BaseType , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Fungible Base Type" ;
+  ttf:symbol "τ" .
+
+ttf:NonFungibleBaseType rdf:type ttf:BaseType , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Non-Fungible Base Type" ;
+  ttf:symbol "τ**" .
+
+ttf:SKUPropertySet rdf:type ttf:PropertySet , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "SKU Property Set" ;
+  ttf:description "Property set for SKU attributes." ;
+  ttf:symbol "φSKU" .
+
+ttf:ExampleFormula rdf:type ttf:TokenFormula , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Example Formula" ;
+  ttf:expression "[τ {~d,SC} + φSKU]" ;
+  ttf:referencesArtifact ttf:FungibleBaseType ,
+    ttf:SupplyControl ,
+    ttf:SKUPropertySet .
+
+ttf:ExampleDefinition rdf:type ttf:TokenDefinition , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Example Definition" ;
+  ttf:description "Definition for the example template with explicit artifact references." ;
+  ttf:referencesArtifact ttf:FungibleBaseType ,
+    ttf:SupplyControl ,
+    ttf:SKUPropertySet .
+
+ttf:ExampleTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Example Template" ;
+  ttf:symbol "[τ {~d,SC} + φSKU]" ;
+  ttf:hasFormula ttf:ExampleFormula ;
+  ttf:hasDefinition ttf:ExampleDefinition ;
+  ttf:hasBaseType ttf:FungibleBaseType ;
+  ttf:hasGroup ttf:SupplyControl ;
+  ttf:hasPropertySet ttf:SKUPropertySet .
+
+ttf:HybridParentTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Hybrid Parent Template" ;
+  ttf:hasBaseType ttf:FungibleBaseType ;
+  ttf:hasBehavior ttf:TransferableBehavior .
+
+ttf:HybridChildTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Hybrid Child Template" ;
+  ttf:hasBaseType ttf:NonFungibleBaseType ;
+  ttf:childOf ttf:HybridParentTemplate ;
+  ttf:hasBehavior ttf:SingletonBehavior .
+
+ttf:HybridTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Hybrid Template" ;
+  ttf:parentOf ttf:HybridChildTemplate ;
+  ttf:composes ttf:HybridChildTemplate ;
+  ttf:hasBaseType ttf:FungibleBaseType ;
+  ttf:hasBehavior ttf:TransferableBehavior .
