@@ -1,0 +1,191 @@
+@prefix ttf: <http://interworkalliance.org/ttf#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<http://interworkalliance.org/ttf> rdf:type owl:Ontology ;
+  rdfs:label "Token Taxonomy Framework Ontology" ;
+  rdfs:comment "Phase 1 schema foundation for the InterWork Alliance Token Taxonomy Framework." .
+
+### Core classes
+
+ttf:Token rdf:type owl:Class ;
+  rdfs:label "Token" .
+
+ttf:BaseType rdf:type owl:Class ;
+  rdfs:label "Base Type" ;
+  rdfs:subClassOf ttf:Token .
+
+ttf:Fungible rdf:type owl:Class ;
+  rdfs:label "Fungible" ;
+  rdfs:subClassOf ttf:BaseType .
+
+ttf:NonFungible rdf:type owl:Class ;
+  rdfs:label "Non-Fungible" ;
+  rdfs:subClassOf ttf:BaseType .
+
+ttf:UniqueFungible rdf:type owl:Class ;
+  rdfs:label "Unique Fungible" ;
+  rdfs:subClassOf ttf:Fungible .
+
+ttf:UniqueNonFungible rdf:type owl:Class ;
+  rdfs:label "Unique Non-Fungible" ;
+  rdfs:subClassOf ttf:NonFungible .
+
+ttf:Behavior rdf:type owl:Class ;
+  rdfs:label "Behavior" .
+
+ttf:Transferable rdf:type owl:Class ;
+  rdfs:label "Transferable" ;
+  rdfs:subClassOf ttf:Behavior .
+
+ttf:Divisible rdf:type owl:Class ;
+  rdfs:label "Divisible" ;
+  rdfs:subClassOf ttf:Behavior .
+
+ttf:Mintable rdf:type owl:Class ;
+  rdfs:label "Mintable" ;
+  rdfs:subClassOf ttf:Behavior .
+
+ttf:Burnable rdf:type owl:Class ;
+  rdfs:label "Burnable" ;
+  rdfs:subClassOf ttf:Behavior .
+
+ttf:Singleton rdf:type owl:Class ;
+  rdfs:label "Singleton" ;
+  rdfs:subClassOf ttf:Behavior .
+
+ttf:Delegable rdf:type owl:Class ;
+  rdfs:label "Delegable" ;
+  rdfs:subClassOf ttf:Behavior .
+
+ttf:Roles rdf:type owl:Class ;
+  rdfs:label "Roles" ;
+  rdfs:subClassOf ttf:Behavior .
+
+ttf:PropertySet rdf:type owl:Class ;
+  rdfs:label "Property Set" .
+
+ttf:BehaviorGroup rdf:type owl:Class ;
+  rdfs:label "Behavior Group" .
+
+ttf:TokenTemplate rdf:type owl:Class ;
+  rdfs:label "Token Template" .
+
+ttf:TokenFormula rdf:type owl:Class ;
+  rdfs:label "Token Formula" .
+
+ttf:TokenDefinition rdf:type owl:Class ;
+  rdfs:label "Token Definition" .
+
+ttf:TokenClass rdf:type owl:Class ;
+  rdfs:label "Token Class" ;
+  rdfs:subClassOf ttf:Token .
+
+ttf:TokenInstance rdf:type owl:Class ;
+  rdfs:label "Token Instance" ;
+  rdfs:subClassOf ttf:Token .
+
+ttf:Artifact rdf:type owl:Class ;
+  rdfs:label "Artifact" .
+
+### Object properties
+
+ttf:hasBaseType rdf:type owl:ObjectProperty ;
+  rdfs:label "has base type" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:BaseType .
+
+ttf:hasBehavior rdf:type owl:ObjectProperty ;
+  rdfs:label "has behavior" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:Behavior .
+
+ttf:hasPropertySet rdf:type owl:ObjectProperty ;
+  rdfs:label "has property set" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:PropertySet .
+
+ttf:hasGroup rdf:type owl:ObjectProperty ;
+  rdfs:label "has group" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:BehaviorGroup .
+
+ttf:composes rdf:type owl:ObjectProperty ;
+  rdfs:label "composes" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:TokenTemplate .
+
+ttf:influences rdf:type owl:ObjectProperty ;
+  rdfs:label "influences" ;
+  rdfs:domain ttf:Behavior ;
+  rdfs:range ttf:Behavior .
+
+ttf:incompatibleWith rdf:type owl:ObjectProperty ;
+  rdfs:label "incompatible with" ;
+  rdfs:domain ttf:Behavior ;
+  rdfs:range ttf:Behavior .
+
+ttf:parentOf rdf:type owl:ObjectProperty ;
+  rdfs:label "parent of" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:TokenTemplate ;
+  owl:inverseOf ttf:childOf .
+
+ttf:childOf rdf:type owl:ObjectProperty ;
+  rdfs:label "child of" ;
+  rdfs:domain ttf:TokenTemplate ;
+  rdfs:range ttf:TokenTemplate .
+
+### Data properties
+
+ttf:symbol rdf:type owl:DatatypeProperty ;
+  rdfs:label "symbol" ;
+  rdfs:domain ttf:Artifact ;
+  rdfs:range rdfs:Literal .
+
+ttf:name rdf:type owl:DatatypeProperty ;
+  rdfs:label "name" ;
+  rdfs:domain owl:Thing ;
+  rdfs:range rdfs:Literal .
+
+ttf:description rdf:type owl:DatatypeProperty ;
+  rdfs:label "description" ;
+  rdfs:domain owl:Thing ;
+  rdfs:range rdfs:Literal .
+
+ttf:version rdf:type owl:DatatypeProperty ;
+  rdfs:label "version" ;
+  rdfs:domain ttf:Artifact ;
+  rdfs:range rdfs:Literal .
+
+### Token Classification Hierarchy (TCH)
+
+ttf:FungibleToken rdf:type owl:Class ;
+  rdfs:label "Fungible Token" ;
+  rdfs:subClassOf ttf:Fungible .
+
+ttf:NonFungibleToken rdf:type owl:Class ;
+  rdfs:label "Non-Fungible Token" ;
+  rdfs:subClassOf ttf:NonFungible .
+
+ttf:FractionalFungibleToken rdf:type owl:Class ;
+  rdfs:label "Fractional Fungible Token" ;
+  rdfs:subClassOf ttf:FungibleToken ,
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ttf:hasBehavior ;
+      owl:someValuesFrom ttf:Divisible
+    ] .
+
+ttf:WholeFungibleToken rdf:type owl:Class ;
+  rdfs:label "Whole Fungible Token" ;
+  rdfs:subClassOf ttf:FungibleToken .
+
+ttf:SingletonNonFungibleToken rdf:type owl:Class ;
+  rdfs:label "Singleton Non-Fungible Token" ;
+  rdfs:subClassOf ttf:NonFungibleToken ,
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ttf:hasBehavior ;
+      owl:someValuesFrom ttf:Singleton
+    ] .
+
