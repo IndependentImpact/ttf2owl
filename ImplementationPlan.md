@@ -13,6 +13,9 @@
 **Deliverables**
 - A scoped checklist of required OWL elements and output constraints.
 - A pointer list of the upstream TTF repo sections (taxonomy overview, taxonomy model, control messages, artifact format, artifacts).
+- Planned directory layout and file names:
+  - `ontology/ttf.ttl` (final Turtle ontology output).
+  - `docs/ImplementationPlan.md` (this plan, if documentation is stored under `docs/`).
 
 **End-of-phase quality criteria**
 - All required ontology components are enumerated and traceable to the task requirements.
@@ -35,6 +38,9 @@
 **Deliverables**
 - A complete OWL schema (classes + properties) consistent with the TTF vocabulary.
 - TCH subtree definitions in OWL.
+- Directory/file plan:
+  - `ontology/schema.ttl` (schema-focused classes/properties, if separated).
+  - `ontology/ttf.ttl` (merged final output).
 
 **End-of-phase quality criteria**
 - All required classes and properties exist with consistent domain/range intent.
@@ -56,6 +62,9 @@
 **Deliverables**
 - Behavior and group individuals with correct properties.
 - Incompatibility and influence axioms.
+- Directory/file plan:
+  - `ontology/behaviors.ttl` (behavior/group individuals, if separated).
+  - `ontology/ttf.ttl` (merged final output).
 
 **End-of-phase quality criteria**
 - Behavior groups reference all required behaviors.
@@ -77,6 +86,9 @@
 **Deliverables**
 - Template/formula/definition classes with sample instances.
 - Hybrid composition and parent/child relationships.
+- Directory/file plan:
+  - `ontology/templates.ttl` (template/formula/definition examples, if separated).
+  - `ontology/ttf.ttl` (merged final output).
 
 **End-of-phase quality criteria**
 - Hybrid structures can be expressed with parent/child and composes relations.
@@ -97,6 +109,9 @@
 **Deliverables**
 - Example individuals reflecting TTF examples and symbols.
 - Coverage across base types, behaviors, groups, property sets, and templates.
+- Directory/file plan:
+  - `ontology/examples.ttl` (example instances, if separated).
+  - `ontology/ttf.ttl` (merged final output).
 
 **End-of-phase quality criteria**
 - Example instances map to TTF examples.
@@ -116,6 +131,8 @@
 **Deliverables**
 - A validated, coherent TTL ontology.
 - Final TTL output formatted to specification.
+- Directory/file plan:
+  - `ontology/ttf.ttl` (single authoritative TTL output).
 
 **End-of-phase quality criteria**
 - Reasoner reports no inconsistencies.
