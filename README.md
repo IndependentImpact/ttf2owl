@@ -18,7 +18,27 @@ This repository includes a pre-configured Apache Jena Fuseki server (via Docker)
 - Docker Compose v2 plugin (included in recent Docker Desktop versions)
 
 ### One-time Preparation
-1. Make the custom startup script executable (required on Unix-like systems, including macOS/Linux):
+
+1. **Configure Admin Credentials (Recommended)**
+
+   Copy the example environment file and customize the admin credentials:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit `.env` to set your desired admin username and password:
+
+   ```bash
+   FUSEKI_ADMIN_USER=admin
+   FUSEKI_ADMIN_PASSWORD=your_secure_password_here
+   ```
+
+   **Security Note:** The `.env` file contains sensitive credentials and is automatically excluded from version control via `.gitignore`. Never commit this file to the repository.
+
+   If you skip this step, the default credentials (`admin/admin`) will be used automatically.
+
+2. Make the custom startup script executable (required on Unix-like systems, including macOS/Linux):
 
    ```bash
    chmod +x docker/fuseki/start-fuseki.sh
@@ -26,7 +46,7 @@ This repository includes a pre-configured Apache Jena Fuseki server (via Docker)
 
 This ensures the script can be run inside the container. (You only need to do this once unless you modify the file.)
 
-2. (Optional but recommended) Build the custom Fuseki image explicitly:
+3. (Optional but recommended) Build the custom Fuseki image explicitly:
 
 ```bash
 docker build -t ttf-fuseki -f docker/fuseki/Dockerfile .
@@ -104,12 +124,33 @@ Place any SHACL shape files (`.ttl` or `.shacl`) in the `shacl/` directory on yo
 
 ### Admin Authentication
 
-Fuseki requires authentication for administrative operations (creating/deleting datasets, backups, etc.). The server is configured with the following default credentials:
+Fuseki requires authentication for administrative operations (creating/deleting datasets, backups, etc.). Admin credentials are configured via environment variables in the `.env` file (or use defaults if no `.env` file exists).
+
+**Default Credentials (if no .env file is provided):**
 
 **Username:** `admin`  
 **Password:** `admin`
 
-⚠️ **Security Note:** These default credentials are suitable for local development only. For production deployments, change the password in `docker/fuseki/shiro.ini` before building the image.
+**Custom Credentials (recommended):**
+
+1. Copy `.env.example` to `.env`
+2. Edit the values in `.env`:
+   ```bash
+   FUSEKI_ADMIN_USER=your_username
+   FUSEKI_ADMIN_PASSWORD=your_secure_password
+   ```
+3. Rebuild and restart the container:
+   ```bash
+   docker compose down
+   docker compose up --build
+   ```
+
+⚠️ **Security Best Practices:**
+- Always use strong, unique passwords for production deployments
+- Keep the `.env` file secure and never commit it to version control
+- The `.env` file is automatically excluded via `.gitignore`
+- For production, consider using Docker secrets or a secure secrets management solution
+- Rotate credentials regularly
 
 When accessing the Fuseki web UI at http://localhost:3030/, you'll need to provide these credentials for any admin operations like creating new datasets. Your browser will prompt for HTTP Basic Authentication when you attempt these operations.
 
