@@ -1,0 +1,13 @@
+services:
+  fuseki:
+    build:
+      context: .
+      dockerfile: docker/fuseki/Dockerfile
+    ports:
+      - "3030:3030"
+    volumes:
+      - fuseki-data:/fuseki-base
+      - ./shacl:/opt/ttf/shacl
+
+volumes:
+  fuseki-data:
