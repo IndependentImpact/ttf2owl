@@ -26,12 +26,13 @@ This repository includes a pre-configured Apache Jena Fuseki server (via Docker)
 
 This ensures the script can be run inside the container. (You only need to do this once unless you modify the file.)
 
-(Optional but recommended) Build the custom Fuseki image explicitly:
+2. (Optional but recommended) Build the custom Fuseki image explicitly:
 
 ```bash
 docker build -t ttf-fuseki -f docker/fuseki/Dockerfile .
 ```
-This step is optional if you rely on docker compose up --build, but doing it separately helps catch errors early.
+
+This step is optional if you rely on `docker compose up --build`, but doing it separately helps catch errors early.
 
 ### Start Fuseki
 From the root of the repository, run:
@@ -39,27 +40,35 @@ From the root of the repository, run:
 ```bash
 docker compose up --build
 ```
---build ensures the image is (re)built if the Dockerfile, startup script, config, or ontology files have changed.
+
+The `--build` flag ensures the image is (re)built if the Dockerfile, startup script, config, or ontology files have changed.
 
 The container will:
-* Load the TTF ontology (ontology/ttf.ttl) into a persistent TDB2 dataset on the first run
-* Start Fuseki with your custom configuration (ttf-config.ttl)
+* Load the TTF ontology (`ontology/ttf.ttl`) into a persistent TDB2 dataset on the first run
+* Start Fuseki with your custom configuration (`ttf-config.ttl`)
 * Expose the Fuseki UI and SPARQL endpoint
 
 The services will be available at:
 
-*Fuseki Admin UI:* http://localhost:3030/
-*SPARQL Query Endpoint:* http://localhost:3030/ttf/query
-*SPARQL Update Endpoint:* http://localhost:3030/ttf/update (if enabled in config)
+* **Fuseki Admin UI:** http://localhost:3030/
+* **SPARQL Query Endpoint:** http://localhost:3030/ttf/query
+* **SPARQL Update Endpoint:** http://localhost:3030/ttf/update (if enabled in config)
 
 ### Stopping the Server
 
-To temporarily halt work but retain the state and data without a requiring full recreation (with docker compose start), use: 
+To temporarily halt work but retain the state and data without requiring full recreation (with `docker compose start`), use:
 
 ```bash
 docker compose stop
 ```
-The dataset is stored in a Docker volume (`fuseki_data` or similar — check `docker compose.yml`). Data survives container restarts but is deleted with `docker compose down -v`. To remove volumes (reset dataset) when needed, use :docker compose down -v
+
+The dataset is stored in a Docker volume (`fuseki_data` or similar — check `docker-compose.yml`). Data survives container restarts but is deleted with `docker compose down -v`. 
+
+To remove volumes (reset dataset) when needed, use:
+
+```bash
+docker compose down -v
+```
 
 ### Example SPARQL Query (in Fuseki UI or via endpoint)
 
@@ -78,9 +87,8 @@ LIMIT 20
 ```
 
 ### SHACL Validation Workspace
-Place any SHACL shape files (.ttl or .shacl) in the shacl/ directory on your host.
-They are automatically mounted into the container at /opt/ttf/shacl.
-You can later extend the startup script or use the Fuseki UI / command line to run SHACL validation against the TTF dataset.
+
+Place any SHACL shape files (`.ttl` or `.shacl`) in the `shacl/` directory on your host. They are automatically mounted into the container at `/opt/ttf/shacl`. You can later extend the startup script or use the Fuseki UI / command line to run SHACL validation against the TTF dataset.
 
 ### Troubleshooting Tips
 
@@ -109,3 +117,4 @@ When accessing the Fuseki web UI at http://localhost:3030/, you'll need to provi
 Place SHACL shape files in `shacl/` on the host. They will be mounted into the container at `/opt/ttf/shacl` for future validation workflows.
 
 You should now have a fully functional, persistent Fuseki instance with the Token Taxonomy Framework ontology loaded and ready to query.
+
