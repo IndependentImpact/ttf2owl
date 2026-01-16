@@ -5,7 +5,8 @@
 
 <http://interworkalliance.org/ttf> rdf:type owl:Ontology ;
   rdfs:label "Token Taxonomy Framework Ontology" ;
-  rdfs:comment "Phase 1 schema foundation for the InterWork Alliance Token Taxonomy Framework." .
+  rdfs:comment "Phase 5 validated release for the InterWork Alliance Token Taxonomy Framework." ;
+  owl:versionInfo "Phase 5 - Validation & release readiness" .
 
 ### Core classes
 
