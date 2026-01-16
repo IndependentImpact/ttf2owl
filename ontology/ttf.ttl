@@ -312,3 +312,98 @@ ttf:HybridTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividu
   ttf:composes ttf:HybridChildTemplate ;
   ttf:hasBaseType ttf:FungibleBaseType ;
   ttf:hasBehavior ttf:TransferableBehavior .
+
+### Artifact alignment & examples (Phase 4)
+
+ttf:UniqueFungibleBaseType rdf:type ttf:BaseType , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Unique Fungible Base Type" ;
+  ttf:symbol "τ*" .
+
+ttf:UniqueNonFungibleBaseType rdf:type ttf:BaseType , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Unique Non-Fungible Base Type" ;
+  ttf:symbol "τ**'" .
+
+ttf:FungibleExampleFormula rdf:type ttf:TokenFormula , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Fungible Example Formula" ;
+  ttf:expression "τ {t,d}" ;
+  ttf:referencesArtifact ttf:FungibleBaseType ,
+    ttf:TransferableBehavior ,
+    ttf:DivisibleBehavior .
+
+ttf:FungibleExampleTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Fungible Example Template" ;
+  ttf:symbol "τ {t,d}" ;
+  ttf:hasFormula ttf:FungibleExampleFormula ;
+  ttf:hasBaseType ttf:FungibleBaseType ;
+  ttf:hasBehavior ttf:TransferableBehavior ,
+    ttf:DivisibleBehavior .
+
+ttf:FungibleExampleTokenClass rdf:type ttf:TokenClass , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Fungible Example Token Class" ;
+  ttf:symbol "τ {t,d}" ;
+  ttf:referencesArtifact ttf:FungibleExampleTemplate .
+
+ttf:NonFungibleExampleFormula rdf:type ttf:TokenFormula , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Non-Fungible Example Formula" ;
+  ttf:expression "τ**" ;
+  ttf:referencesArtifact ttf:NonFungibleBaseType .
+
+ttf:NonFungibleExampleTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Non-Fungible Example Template" ;
+  ttf:symbol "τ**" ;
+  ttf:hasFormula ttf:NonFungibleExampleFormula ;
+  ttf:hasBaseType ttf:NonFungibleBaseType .
+
+ttf:NonFungibleExampleTokenClass rdf:type ttf:TokenClass , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Non-Fungible Example Token Class" ;
+  ttf:symbol "τ**" ;
+  ttf:referencesArtifact ttf:NonFungibleExampleTemplate .
+
+ttf:SingletonExampleFormula rdf:type ttf:TokenFormula , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Singleton Example Formula" ;
+  ttf:expression "τ** {s}" ;
+  ttf:referencesArtifact ttf:NonFungibleBaseType ,
+    ttf:SingletonBehavior .
+
+ttf:SingletonExampleTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Singleton Example Template" ;
+  ttf:symbol "τ** {s}" ;
+  ttf:hasFormula ttf:SingletonExampleFormula ;
+  ttf:hasBaseType ttf:NonFungibleBaseType ;
+  ttf:hasBehavior ttf:SingletonBehavior .
+
+ttf:SingletonExampleTokenClass rdf:type ttf:TokenClass , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Singleton Example Token Class" ;
+  ttf:symbol "τ** {s}" ;
+  ttf:referencesArtifact ttf:SingletonExampleTemplate .
+
+ttf:HybridExampleFormula rdf:type ttf:TokenFormula , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Hybrid Example Formula" ;
+  ttf:expression "τ** (τ*)" ;
+  ttf:referencesArtifact ttf:NonFungibleBaseType ,
+    ttf:UniqueFungibleBaseType .
+
+ttf:HybridExampleParentTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Hybrid Example Parent Template" ;
+  ttf:hasBaseType ttf:UniqueFungibleBaseType ;
+  ttf:hasBehavior ttf:TransferableBehavior .
+
+ttf:HybridExampleChildTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Hybrid Example Child Template" ;
+  ttf:hasBaseType ttf:NonFungibleBaseType ;
+  ttf:childOf ttf:HybridExampleParentTemplate ;
+  ttf:hasBehavior ttf:SingletonBehavior .
+
+ttf:HybridExampleTemplate rdf:type ttf:TokenTemplate , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Hybrid Example Template" ;
+  ttf:symbol "τ** (τ*)" ;
+  ttf:hasFormula ttf:HybridExampleFormula ;
+  ttf:parentOf ttf:HybridExampleChildTemplate ;
+  ttf:composes ttf:HybridExampleChildTemplate ;
+  ttf:hasBaseType ttf:NonFungibleBaseType ;
+  ttf:hasBehavior ttf:TransferableBehavior .
+
+ttf:HybridExampleTokenClass rdf:type ttf:TokenClass , ttf:Artifact , owl:NamedIndividual ;
+  rdfs:label "Hybrid Example Token Class" ;
+  ttf:symbol "τ** (τ*)" ;
+  ttf:referencesArtifact ttf:HybridExampleTemplate .
