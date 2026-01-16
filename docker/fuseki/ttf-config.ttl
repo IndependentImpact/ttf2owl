@@ -25,4 +25,4 @@
   ] .
 
 :dataset_ttf a tdb2:DatasetTDB2 ;
-  tdb2:location "/fuseki-base/databases/ttf" .
+  tdb2:location "/fuseki/databases/ttf" .

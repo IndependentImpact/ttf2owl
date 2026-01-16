@@ -1,15 +1,22 @@
-FROM apache/jena-fuseki:5.1.0
+FROM stain/jena-fuseki:5.1.0
 
-ENV FUSEKI_BASE=/fuseki-base
+ENV FUSEKI_BASE=/fuseki
 
-COPY docker/fuseki/ttf-config.ttl /opt/ttf/ttf-config.ttl
-COPY docker/fuseki/start-fuseki.sh /opt/ttf/start-fuseki.sh
-COPY ontology/ttf.ttl /opt/ttf/ttf.ttl
+# Your config files
+COPY docker/fuseki/ttf-config.ttl     /opt/ttf/ttf-config.ttl
+COPY ontology/ttf.ttl                 /opt/ttf/ttf.ttl
 
-RUN chmod +x /opt/ttf/start-fuseki.sh && \
-    mkdir -p /fuseki-base && \
-    chown -R fuseki:fuseki /fuseki-base
+# Custom startup (only if really needed)
+COPY docker/fuseki/start-fuseki.sh    /opt/ttf/start-fuseki.sh
+
+USER root
+
+RUN chmod +x /opt/ttf/start-fuseki.sh \
+    && chown -R fuseki:fuseki /opt/ttf/
+
+USER fuseki
 
 EXPOSE 3030
 
+# If your script just wraps the original entrypoint:
 ENTRYPOINT ["/opt/ttf/start-fuseki.sh"]
