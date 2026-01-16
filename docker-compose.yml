@@ -5,6 +5,11 @@ services:
       dockerfile: docker/fuseki/Dockerfile
     ports:
       - "3030:3030"
+    environment:
+      - FUSEKI_ADMIN_USER=${FUSEKI_ADMIN_USER:-admin}
+      - FUSEKI_ADMIN_PASSWORD=${FUSEKI_ADMIN_PASSWORD:-admin}
+    env_file:
+      - .env
     volumes:
       - fuseki-data:/fuseki-base
       - ./shacl:/opt/ttf/shacl
