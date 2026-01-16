@@ -6,7 +6,9 @@ COPY docker/fuseki/ttf-config.ttl /opt/ttf/ttf-config.ttl
 COPY docker/fuseki/start-fuseki.sh /opt/ttf/start-fuseki.sh
 COPY ontology/ttf.ttl /opt/ttf/ttf.ttl
 
-RUN chmod +x /opt/ttf/start-fuseki.sh
+RUN chmod +x /opt/ttf/start-fuseki.sh && \
+    mkdir -p /fuseki-base && \
+    chown -R fuseki:fuseki /fuseki-base
 
 EXPOSE 3030
 
