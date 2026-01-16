@@ -17,4 +17,21 @@
 - `ls docs`
 - `cat docs/phase-3-summary.md`
 - `cat docs/command-log.md`
+- `which robot || which rdfsizer || which owltool || which java`
+- `which riot || which arq || which rapper || which rdfpipe`
+- `python - <<'PY'
+import importlib.util
+print('rdflib', importlib.util.find_spec('rdflib'))
+PY`
+- `python -m pip install rdflib owlrl`
+- `python - <<'PY'
+from rdflib import Graph
+from owlrl import DeductiveClosure, OWLRL_Semantics
 
+graph = Graph()
+path = 'ontology/ttf.ttl'
+parsed = graph.parse(path, format='turtle')
+print(f'Parsed {len(graph)} triples from {path}.')
+DeductiveClosure(OWLRL_Semantics).expand(graph)
+print(f'After OWL RL reasoning: {len(graph)} triples.')
+PY`
