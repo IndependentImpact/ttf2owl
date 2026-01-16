@@ -137,3 +137,25 @@
 **End-of-phase quality criteria**
 - Reasoner reports no inconsistencies.
 - Output formatting meets TTL-only requirements exactly.
+
+---
+
+## Phase 6 — Dockerized query environment (Apache Jena)
+
+**Objectives**
+- Provide a Docker-based Apache Jena environment to host and query the ontology for testing and future development (e.g., SHACL constraints).
+
+**Key activities**
+- Create a Dockerfile (or docker-compose configuration) that spins up an Apache Jena Fuseki instance.
+- Load the generated `ontology/ttf.ttl` into the dataset on container startup.
+- Document local run and query instructions (including SPARQL endpoint URL and example query).
+- Add SHACL-friendly wiring (e.g., volume mount or designated directory) to support future constraint files.
+
+**Deliverables**
+- Docker configuration for Apache Jena/Fuseki.
+- Startup assets or scripts to preload the ontology dataset.
+- Documentation updates for running and querying the container.
+
+**End-of-phase quality criteria**
+- Running the container exposes a queryable SPARQL endpoint backed by the ontology.
+- A sample query returns expected classes/individuals from the ontology.
