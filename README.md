@@ -92,15 +92,29 @@ Place any SHACL shape files (`.ttl` or `.shacl`) in the `shacl/` directory on yo
 
 ### Troubleshooting Tips
 
-* **Permission denied on start-fuseki.sh** → Run `chmod +x docker/fuseki/start-fuseki.sh` again.
-* **Dataset not loading** → Check container logs (`docker compose logs`) for errors from `tdbloader2`.
-* **Port 3030 already in use** → Stop other services or change the port mapping in `docker-compose.yml`.
-* **Apple Silicon (M1/M2/M3) warning** → Normal — the base image is `amd64`; emulation works fine for this workload.
+**Permission denied on start-fuseki.sh** → Run `chmod +x docker/fuseki/start-fuseki.sh` again.
+
+**Dataset not loading** → Check container logs (`docker compose logs`) for errors from tdbloader2.
+
+**Port 3030 already in use** → Stop other services or change the port mapping in docker-compose.yml.
+
+**403 Forbidden when creating datasets** → This occurs when admin authentication is not provided. When creating or managing datasets via the Fuseki web UI, you must authenticate with the admin credentials (see Admin Authentication section below). Your browser should automatically prompt for credentials when you attempt admin operations.
+
+**Apple Silicon (M1/M2/M3) warning** → Normal — the base image is amd64; emulation works fine for this workload.
+
+### Admin Authentication
+
+Fuseki requires authentication for administrative operations (creating/deleting datasets, backups, etc.). The server is configured with the following default credentials:
+
+**Username:** `admin`  
+**Password:** `admin`
+
+⚠️ **Security Note:** These default credentials are suitable for local development only. For production deployments, change the password in `docker/fuseki/shiro.ini` before building the image.
+
+When accessing the Fuseki web UI at http://localhost:3030/, you'll need to provide these credentials for any admin operations like creating new datasets. Your browser will prompt for HTTP Basic Authentication when you attempt these operations.
+
+### SHACL Workspace
+Place SHACL shape files in `shacl/` on the host. They will be mounted into the container at `/opt/ttf/shacl` for future validation workflows.
 
 You should now have a fully functional, persistent Fuseki instance with the Token Taxonomy Framework ontology loaded and ready to query.
 
-## Additional Notes
-
-### Default Credentials
-
-On first run, Fuseki generates a random admin password and prints it in the logs. Look for `admin=...` in `docker compose logs` if you need UI access.
