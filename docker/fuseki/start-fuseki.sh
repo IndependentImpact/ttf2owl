@@ -6,6 +6,9 @@ ONTOLOGY_SRC="/opt/ttf/ttf.ttl"
 SHIRO_INI="${FUSEKI_BASE}/shiro.ini"
 
 # Generate shiro.ini with credentials from environment variables
+# Note: The generated file will contain passwords in plain text, which is
+# expected for Shiro configuration. File permissions are managed by the
+# container's security model (fuseki user with restricted access).
 echo "Generating shiro.ini with admin credentials..."
 cat > "$SHIRO_INI" << 'EOF'
 # Licensed to the Apache Software Foundation (ASF) under one
