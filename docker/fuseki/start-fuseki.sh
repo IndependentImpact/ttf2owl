@@ -64,8 +64,18 @@ admin = *
 ## This covers dataset creation, deletion, backup, etc.
 /$/** = authcBasic, roles[admin]
 
-## Allow anonymous access to all dataset endpoints for queries
-## (adjust if you want to secure dataset access too)
+## Dataset-specific permissions
+## Allow anonymous read access (queries)
+/**/query = anon
+/**/sparql = anon
+
+## Allow authenticated access for write operations
+## This includes SPARQL updates and Graph Store Protocol writes
+/**/update = authcBasic, roles[admin]
+/**/data = authcBasic, roles[admin]
+/**/upload = authcBasic, roles[admin]
+
+## Default: allow anonymous read access to other endpoints
 /** = anon
 EOF
 

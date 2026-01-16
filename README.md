@@ -106,6 +106,46 @@ ORDER BY ?label
 LIMIT 20
 ```
 
+### Adding Data to the Dataset
+
+Write operations (POST, PUT, DELETE) to the dataset require authentication with admin credentials.
+
+#### Using the Graph Store Protocol (GSP)
+
+To add data to a named graph using the `/data` endpoint, you must:
+1. Provide admin credentials (HTTP Basic Authentication)
+2. Use an **absolute URI** for the graph name
+
+**Example with curl:**
+
+```bash
+# Add data to a named graph (requires authentication)
+curl -X POST \
+  -u admin:admin \
+  --data-binary @mydata.ttl \
+  -H "Content-Type: text/turtle" \
+  "http://localhost:3030/ttf/data?graph=http://example.org/test"
+```
+
+**Important Notes:**
+- The `graph` parameter must be an **absolute URI** (e.g., `http://example.org/test`), not a relative URI (e.g., `test`)
+- Using a relative URI will result in a 400 error with "URI is relative" warning
+- Authentication is required for all write operations to the `/data`, `/update`, and `/upload` endpoints
+- Query operations at `/query` do not require authentication
+
+#### Using SPARQL Update
+
+SPARQL UPDATE operations also require authentication:
+
+```bash
+# Example SPARQL UPDATE (requires authentication)
+curl -X POST \
+  -u admin:admin \
+  --data "INSERT DATA { GRAPH <http://example.org/test> { <http://example.org/subject> <http://example.org/predicate> \"object\" } }" \
+  -H "Content-Type: application/sparql-update" \
+  "http://localhost:3030/ttf/update"
+```
+
 ### SHACL Validation Workspace
 
 Place any SHACL shape files (`.ttl` or `.shacl`) in the `shacl/` directory on your host. They are automatically mounted into the container at `/opt/ttf/shacl`. You can later extend the startup script or use the Fuseki UI / command line to run SHACL validation against the TTF dataset.
